@@ -1,7 +1,16 @@
-company-name:
+traffic_data_warehouse:
   target: dev
   outputs:
     dev:
+      type: postgres
+      host: 127.0.0.1
+      user: airflow
+      password: airflow
+      port: 5432
+      dbname: airflow
+      schema: demo
+      threads: 5
+    prod:
       type: postgres
       host: 127.0.0.1
       user: airflow
