@@ -38,8 +38,8 @@ with DAG(
         task_id="load",
         python_callable=load_data,
         op_kwargs={
-            "path": "./data/20181024_d1_0830_0900.csv",
-            "db_table": "traffic_info"
+            "path": "./data/data_1.csv",
+            "db_table": "traffic_data"
         }
     )
     first_task
