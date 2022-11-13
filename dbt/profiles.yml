@@ -7,7 +7,7 @@ traffic_data_warehouse:
       user: airflow
       password: airflow
       port: 5432
-      dbname: airflow
+      dbname: traffic_id
       schema: demo
       threads: 5
     prod:
@@ -16,7 +16,7 @@ traffic_data_warehouse:
       user: airflow
       password: airflow
       port: 5432
-      dbname: airflow
+      dbname: traffic_id
       schema: demo
       threads: 5
       

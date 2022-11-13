@@ -16,7 +16,7 @@ default_args = {
 with DAG(
     dag_id="Store_data",
     start_date=datetime(2022,10,11),
-    schedule_interval="0 0 * * *",
+    schedule_interval="@once",
     catchup=False,
     default_args=default_args,
 ) as dag_script:

@@ -4,7 +4,7 @@
 # regarding copyright ownership.  The ASF licenses this file
 # to you under the Apache License, Version 2.0 (the
 # "License"); you may not use this file except in compliance
-# with the License.  You may obtain a copy of the License at
+# with the License.  You may obtain a copyf the License at
 #
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
@@ -55,8 +55,8 @@ x-airflow-common:
     AIRFLOW__CELERY__RESULT_BACKEND: db+postgresql://airflow:airflow@postgres/airflow
     AIRFLOW__CELERY__BROKER_URL: redis://:@redis:6379/0
     AIRFLOW__CORE__FERNET_KEY: ''
-    AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: 'true'
-    AIRFLOW__CORE__LOAD_EXAMPLES: 'true'
+    AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: 'false'
+    AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
     AIRFLOW__API__AUTH_BACKENDS: 'airflow.api.auth.backend.basic_auth'
     _PIP_ADDITIONAL_REQUIREMENTS: ${_PIP_ADDITIONAL_REQUIREMENTS:-}
   volumes:
@@ -80,6 +80,9 @@ services:
       POSTGRES_DB: airflow
     volumes:
       - postgres-db-volume:/var/lib/postgresql/data
+      - ./data/data_1.csv:/var/lib/postgresql/data/data_1.csv
+    ports:
+      - 5432:5432
     healthcheck:
       test: ["CMD", "pg_isready", "-U", "airflow"]
       interval: 5s
