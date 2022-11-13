@@ -1,0 +1,76 @@
+
+version: 2
+
+sources:
+  - name: traffic_db
+    description: "Data Warehouse using data reorded from drons and rode side cameras."
+    database: traffic_db
+    schema: public
+    tables:
+      - name: traffic_table
+        description: "Table has 11 colunms"
+        columns:
+          - name: id
+            description: The primary key for this table 
+          - name: track_id
+            description: Unique tracking identifier
+          - name: v_type
+            description: Vehicle type
+          - name: traveled_d
+            description: Distance travled by the vehicle
+          - name: avg_speed
+            description: Vehicle's average speed 
+          - name: lat
+            description: Vehicle's latitude
+          - name: lon
+            description: Vehicle's longitude
+          - name: speed
+            description: Vehicle's speed during recording
+          - name: lon_acc
+            description: Vehicle's lon
+          - name: lat_acc
+            description: Vehicle's lat
+          - name: d_time
+            description: Time of recording
+models:
+  - name: avgerage_speed
+    description: "Average speed of every vehicle type"
+    columns:
+      - name: v_type
+        description: "Vehicle type"
+      - name: avg
+        description: "Average speed"
+  - name: group_by_type
+    description: "Vehicles grouped by vehicle type"
+    columns:
+      - name: v_type
+        description: "Vehicle type"
+      - name: count
+        description: "Count of vehicle groups"
+  - name: group_by_time
+    description: "Vehicles grouped by time"
+    columns:
+      - name: d_time
+        description: "Time of recording"
+      - name: count
+        description: "Count of time groups"
+  
+
+# models:
+#   - name: my_first_dbt_model
+#     description: "A starter dbt model"
+#     columns:
+#       - name: id
+#         description: "The primary key for this table"
+#         tests:
+#           - unique
+#           - not_null
+
+#   - name: my_second_dbt_model
+#     description: "A starter dbt model"
+#     columns:
+#       - name: id
+#         description: "The primary key for this table"
+#         tests:
+#           - unique
+#           - not_null
