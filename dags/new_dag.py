@@ -1,37 +1,53 @@
-from sqlalchemy import create_engine
-import pandas as pd
-import os
-from datetime import timedelta,datetime
+from datetime import datetime, timedelta
+import imp
 import airflow
 from airflow import DAG
-from airflow.providers.postgres.operators.postgres import PostgresOperator
+from airflow.decorators import task
+from sqlalchemy import create_engine
+import os
+from airflow.operators.python import PythonOperator
+import pandas as pd
 
+     
+
+    # specific tasks
+    # @task(task_id="first task")
+    # def performs_a_task():
+    #     print("Data warehousing")
+    #     return "Data warehousing"
+
+    # performs_a_task 
+default_args= {
+    'owner': 'birtukan',
+    'retries':5,
+    'retry_delay':timedelta(minutes=5)
+}
+
+    # @task(task_id='load')
+def load_data(file_path, db_table):
+    engine = create_engine('postgesql+psycopg2://airflow:airflow@postgres/airflow', echo=True)
+    print(os.system('pwd'))
+    df = pd.read_csv(file_path,sep="[,;:]",index_col=False)
+    df.to_sql(db_table,con=engine,if_exists='replace',index_label='id')
 
 with DAG(
-    dag_id="Store_data",
-    start_date=airflow.utils.dates.days_ago(1),
-    schedule_interval="@once",
+    dag_id='First_DAG',
+    # default_args=default_args,
+    description='First DAG prepared',
+    schedule_interval='@daily',
+    start_date=datetime(2022,1,1),
     catchup=False,
-) as dag:
+    tags=['The first tag'],
+)as dag:
+    first_task = PythonOperator(
+        task_id="load",
+        python_callable=load_data,
+        op_kwargs={
+            "path": "./data/data_1.csv",
+            "db_table": "traffic_data"
+        }
+    )
+    first_task
     
 
-    create_table = PostgresOperator(
-        sql="create_table.sql",
-        task_id="Create_table",
-        postgres_conn_id="postgres_default",
-        dag=dag,
-    )
-    add_data = PostgresOperator(
-        sql="add_data.sql",
-        task_id="Add_data",
-        postgres_conn_id="postgres_default",
-        dag=dag,
-    )
-    create_databasse = PostgresOperator(
-        sql="create_db.sql",
-        task_id="Create_database",
-        postgres_conn_id="postgres_default",
-        dag=dag,
-    )
-
-create_table >> add_data >> create_databasse
+    

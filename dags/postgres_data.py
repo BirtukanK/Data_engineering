@@ -18,7 +18,7 @@ with DAG(
     get_all_traffic= PostgresOperator(
         task_id="dag_postgres", 
         postgres_conn_id="postgres_traffic",
-        sql="SELECT * FROM traffic_info;"
+        sql="SELECT * FROM traffic_data;"
     )
 
     get_all_traffic 
